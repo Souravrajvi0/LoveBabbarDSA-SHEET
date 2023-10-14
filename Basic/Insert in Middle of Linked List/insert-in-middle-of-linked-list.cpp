@@ -65,26 +65,37 @@ struct Node {
 */
 
 //Function to insert a node in the middle of the linked list.
+//1 2 3 4-- xnd pos
+ int findm(Node *head){
+     Node*current=head;
+     int i=0;
+     while(current!=NULL){
+         i++;
+         current=current->next;
+         
+     }
+     if(i%2==0){
+         return (i/2)+1;
+     }else{
+         return (i/2)+2;
+     }
+ }
 Node* insertInMiddle(Node* head, int x)
 {
 	// Code here
-	Node*fast=head;
-	Node*slow=head;
-	
-	while(fast->next!=NULL&&fast->next->next!=NULL){
-	    
-	    slow=slow->next;
-	    fast=fast->next->next;
-	    
-	    
-	}
-	Node *s=new Node(x);
-	Node*temp;
-	temp=slow->next;
-	slow->next=s;
-	s->next=temp;
-	return head;
+	int mid=findm(head);
+	Node *temp=new Node(x);
+	 int i=1;
+	 Node *current=head;
+	 while(i!=mid-1){
+	     current=current->next;
+	     i++;
+	     }
+	     temp->next=current->next;
+	     current->next=temp;
+	     return head;
+	     
 	
 	
-
+	
 }
