@@ -96,48 +96,40 @@ class Solution
 {
     public:
     int sum(Node* root){
+        
         if(root==NULL){
             return 0;
         }
-        int k=root->data+sum(root->left)+sum(root->right);
-        return k;
+        
+        
+        
+        if(root->left==NULL&&root->right==NULL){
+            return root->data;
+        }
+        int ls=sum(root->left);
+        if(ls==-1){
+            return -1;
+        }
+        int rs=sum(root->right);
+        if(rs==-1){
+            return -1;
+        }
+        
+        if(root->data!=ls+rs){
+            return -1;
+        }
+        return root->data+ls+rs;
+      
     }
     bool isSumTree(Node* root)
     {
          // Your code here
          
-         if(root==NULL){
-             return true;
-         }
-         
-         
-         
-         
-         
-         if(root->left==NULL&root->right==NULL){
-             return true;
-         }
-         
-         if(root->data!=sum(root->left)+sum(root->right)){
-             return false;
-         }
-         
-         if(!isSumTree(root->left)){
-             return false;
-         }
-         
-         if(!isSumTree(root->right)){
+         if(sum(root)==-1){
              return false;
          }
          return true;
-         
-         
-         
-         
-         
-         
-         
-    }
+         }
 };
 
 //{ Driver Code Starts.
