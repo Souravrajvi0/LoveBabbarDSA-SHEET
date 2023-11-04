@@ -8,7 +8,6 @@ class Solution
 	public:
 	//Function to return list containing vertices in Topological order. 
 	void dfs(int i,vector<int>&vis,vector<int> adj[],stack<int>&s){
-	    
 	    vis[i]=1;
 	    
 	    for(int n:adj[i]){
@@ -24,22 +23,53 @@ class Solution
 	
       vector<int> topoSort(int V, vector<int> adj[]) {
 	    // code here
-	    vector<int>vis(V,-1);
-	    stack<int>s;
+	   // vector<int>vis(V,-1);
+	   // stack<int>s;
 	    
-	    for(int i=0;i<V;i++){
-	        if(vis[i]==-1){
-	            dfs(i,vis,adj,s);
-	        }
+	   // for(int i=0;i<V;i++){
+	   //     if(vis[i]==-1){
+	   //         dfs(i,vis,adj,s);   // this is dfs code 
+	   //     }
 	        
-	    }
-	    vector<int>res;
-	    while(!s.empty()){
-	        res.push_back(s.top());
-	        s.pop();
-	    }
-	    return res;
-	}
+	   // }
+	   // vector<int>res;
+	   // while(!s.empty()){
+	   //     res.push_back(s.top());
+	   //     s.pop();
+	   // }
+	   // return res;
+	   vector<int>ind(V,0);
+	   for(int i=0;i<V;i++){
+	       for(auto it:adj[i]){
+	           ind[it]++;
+	        }
+	   }
+	       
+	        queue<int>q;
+	  for(int i=0;i<V;i++){
+	      if(ind[i]==0){
+	         q.push(i);
+	      }
+	  }
+	  vector<int>res;
+	   while(!q.empty()){
+	       
+	     int temp=q.front();
+	     res.push_back(temp);
+	     
+	     q.pop();
+	     
+	     for(auto it:adj[temp]){
+	         ind[it]--;
+	         if(ind[it]==0){
+	             q.push(it);
+	         }
+	         
+	     }
+	 }
+	   return res;
+	   
+	  }
 };
 
 //{ Driver Code Starts.
