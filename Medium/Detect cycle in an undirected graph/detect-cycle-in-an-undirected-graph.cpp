@@ -6,29 +6,42 @@ using namespace std;
 class Solution {
   public:
     // Function to detect cycle in an undirected graph.
-    bool detectcycle(int start,vector<bool>&visited, vector<int> adj[]){
-        
+    
+    bool check(int start,int parent,vector<int>&vis,vector<int> adj[]){
+        vis[start]=1;
         pair<int,int>temp;
         temp.first=start;
-        temp.second=-1;
+        temp.second=parent;
         queue<pair<int,int>>q;
         q.push(temp);
-        visited[start]=true;
+        
         while(!q.empty()){
-            pair<int,int>temp2=q.front();
-            int cur=temp2.first;
-            int pre=temp2.second;
+            int cur=q.front().first;
+            int pr=q.front().second;
             q.pop();
             
             for(int n:adj[cur]){
-                if(!visited[n]){
-                    visited[n]=true;
-                    q.push({n,cur});
+                
+                if(vis[n]==-1){
+                    vis[n]=1;
+                    pair<int,int>temp2;
+                    temp2.first=n;
+                    temp2.second=cur;
+                    q.push(temp2);
                     
-                }else if(n!=pre){
-                    return true;
+                    
+                    
+                }else{
+                    if(n!=pr){
+                        return true;
+                    }
+                    
+                    
+                    
+                    
                     
                 }
+                
                 
                 
                 
@@ -39,11 +52,24 @@ class Solution {
             
             
             
+            
+            
+            
+            
         }
+        
         return false;
-        
-        
-        
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+       
         
         
     }
@@ -53,33 +79,18 @@ class Solution {
     
     
     
-    
     bool isCycle(int V, vector<int> adj[]) {
         // Code here
-        vector<bool>visited(V,false);
-        
+        vector<int>vis(V,-1);
         for(int i=0;i<V;++i){
-            if(!visited[i]){
-            bool k=detectcycle(i,visited,adj);
-            if(k){
-                return true;
+            if(vis[i]==-1){
+                bool ans=check(i,-1,vis,adj);
+                if(ans){
+                    return true;
+                }
             }
-            }
-            
-            
-            
-            
         }
         return false;
-        
-        
-        
-        
-        
-        
-        
-        
-        
     }
 };
 
