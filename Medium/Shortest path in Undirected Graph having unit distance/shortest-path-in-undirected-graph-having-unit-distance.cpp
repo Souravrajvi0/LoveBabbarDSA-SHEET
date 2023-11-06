@@ -8,58 +8,47 @@ using namespace std;
 // User function Template for C++
 class Solution {
   public:
-   void bfs(vector<vector<int>>& adj,int src,vector<bool>&vis,vector<int>&d){
-       
-       vis[src]=true;
-       d[src]=0;
-       
-       queue<pair<int,int>>q;
-       q.push({src,0});
-       
-       while(!q.empty()){
-           pair<int,int>temp=q.front();
-           
-           int node=temp.first;
-           int dis=temp.second;
-           q.pop();
-           
-           for(int n:adj[node]){
-               if(!vis[n]){
-                   vis[n]=true;
-                   d[n]=dis+1;
-                   q.push({n,dis+1});
-               }
-            }
-          
-           
-           
-           
-           
-           
-       }
-       
-    }
-  
-  
-  
-  
-  
     vector<int> shortestPath(vector<vector<int>>& edges, int N,int M, int src){
         // code here
         
-        vector<bool>vis(N,false);
-        vector<int>distance(N,-1);
-         vector<vector<int>> adj(N);
-        for(auto edge : edges){
-            adj[edge[0]].push_back(edge[1]);
-            adj[edge[1]].push_back(edge[0]);
+        vector<vector<int>>adj(N);
+        for(int i=0;i<M;i++){
+            adj[edges[i][0]].push_back(edges[i][1]);
+             adj[edges[i][1]].push_back(edges[i][0]);
+            
         }
         
-       
-        bfs(adj,src,vis,distance);
+        vector<int>dis(N,INT_MAX);
+        dis[src]=0;
+        
+        pair<int,int>temp={src,0};
+        queue<pair<int,int>>q;
+        q.push(temp);
+        
+        while(!q.empty()){
+            
+            auto it=q.front();
+            int node=it.first;
+            int d=it.second;
+            
+            q.pop();
+            
+            for(auto l:adj[node]){
+                
+                 if(dis[l]>d+1){
+                    q.push({l,d+1});
+                    dis[l]=d+1;
+                }
+                 }
+       }
+        for(auto &d:dis){
+            if(d==INT_MAX)d=-1;
+        }
+       return dis; 
         
         
-        return distance;
+        
+        
     }
 };
 
