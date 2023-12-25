@@ -5,17 +5,6 @@ using namespace std;
 
 // } Driver Code Ends
 class Solution{
-    private:
-    int kadaneMaxSum(int arr[], int n) {
-        int sum = 0;
-        int maxi = INT_MIN; 
-        for(int i=0; i<n; i++) {
-            sum += arr[i];
-            maxi = max(sum, maxi); 
-            if(sum < 0) sum = 0;
-        }
-        return maxi;
-    }
     public:
     // arr: input array
     // num: size of array
@@ -23,17 +12,26 @@ class Solution{
     int circularSubarraySum(int arr[], int num){
         
         // your code here
-         int nonCircularSum = kadaneMaxSum(arr, num);
-        int totalSum = 0;
-        for(int i=0; i<num; i++){
+         if(num ==0) return 0;
+        int maxNormal=INT_MIN,maxCircular = INT_MIN;
+        int minNormal=INT_MAX,minCircular=INT_MAX;
+        int totalSum=0;
+        int currMax=0,currMin=0;
+        
+        for(int i=0;i<num;i++)
+        {
+            currMax=max(currMax+arr[i] , arr[i]);
+            maxNormal=max(currMax,maxNormal);
+            
+            currMin=min(currMin + arr[i] , arr[i]);
+            minNormal = min(minNormal , currMin);
+            
             totalSum += arr[i];
-            arr[i] = -arr[i];
         }
-              
-        int circularSum = totalSum + kadaneMaxSum(arr, num);
-        if(circularSum == 0)
-            return nonCircularSum;
-        return max(circularSum,nonCircularSum);
+        if(maxNormal<0) return maxNormal;
+        maxCircular = totalSum - minNormal;
+        return max(maxNormal,maxCircular);
+
     }
 };
 
